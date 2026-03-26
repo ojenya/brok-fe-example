@@ -1,4 +1,6 @@
-# Electron + Java: Полноценное desktop-приложение на стеке React + JVM
+# Electron + Java: Полноценное desktop-приложение на стеке React + Java
+![G4NQAQPdXIn5XB8k8wP5VWhNEUSphjPk8Yi6V7y0po8=](https://github.com/user-attachments/assets/109e0dfe-6062-44a6-ad03-3a2d70c87a84)
+<img width="1003" height="708" alt="zE1mIlxvXqOx3jDk9QBNabEE32rip-EFK2nfIXoJW-E=" src="https://github.com/user-attachments/assets/50b134c4-71b1-4e31-b04e-a9c42c49933b" />
 
 Демонстрационный проект для статьи на Хабре, показывающий архитектуру desktop-приложения с фронтендом на Electron и бэкендом на Java (Spring Boot).
 
