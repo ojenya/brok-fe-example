@@ -1,0 +1,61 @@
+/* Единая тема BrOk Demo: тёмная, современная */
+:root {
+  --brok-bg: #0c0c10;
+  --brok-surface: #16161d;
+  --brok-surface-elevated: #1e1e28;
+  --brok-border: #27272a;
+  --brok-border-focus: #3f3f46;
+  --brok-text: #fafafa;
+  --brok-text-muted: #a1a1aa;
+  --brok-accent: #6366f1;
+  --brok-accent-hover: #818cf8;
+  --brok-success: #22c55e;
+  --brok-error: #ef4444;
+  --brok-radius: 12px;
+  --brok-radius-sm: 8px;
+  --brok-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --brok-font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: var(--brok-font);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--brok-text);
+  background: var(--brok-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: var(--brok-radius-sm);
+  font-weight: 500;
+  transition: background-color 0.2s, transform 0.1s;
+}
+button:focus-visible {
+  outline: 2px solid var(--brok-accent);
+  outline-offset: 2px;
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}

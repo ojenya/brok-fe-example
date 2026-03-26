@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BrOk — загрузка</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --brok-bg: #0c0c10;
+      --brok-surface: #16161d;
+      --brok-surface-elevated: #1e1e28;
+      --brok-border: #27272a;
+      --brok-text: #fafafa;
+      --brok-text-muted: #a1a1aa;
+      --brok-accent: #6366f1;
+      --brok-success: #22c55e;
+      --brok-radius: 12px;
+      --brok-radius-sm: 8px;
+      --brok-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+      --brok-font: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--brok-font);
+      font-size: 16px;
+      color: var(--brok-text);
+      background: var(--brok-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      -webkit-font-smoothing: antialiased;
+    }
+    .loading-app {
+      width: 100%;
+      max-width: 400px;
+    }
+    .loading-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.5rem;
+      color: var(--brok-text);
+    }
+    .loading-version {
+      font-size: 0.8125rem;
+      color: var(--brok-text-muted);
+      margin: 0 0 1.5rem;
+    }
+    .loading-card {
+      background: var(--brok-surface);
+      border: 1px solid var(--brok-border);
+      border-radius: var(--brok-radius);
+      padding: 1.25rem 1.5rem;
+      box-shadow: var(--brok-shadow);
+    }
+    .service {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0.5rem 0;
+    }
+    .service:not(:last-child) { border-bottom: 1px solid var(--brok-border); }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--brok-border);
+      flex-shrink: 0;
+      transition: background 0.2s;
+      animation: brok-dot-pulse 1.2s ease-in-out infinite;
+    }
+    .dot.ready {
+      background: var(--brok-success);
+      animation: none;
+    }
+    @keyframes brok-dot-pulse {
+      0%, 100% { background: var(--brok-border); opacity: 1; }
+      50% { background: var(--brok-text); opacity: 0.9; }
+    }
+    .service-name { font-weight: 500; flex: 1; }
+    .status {
+      font-size: 0.8125rem;
+      color: var(--brok-text-muted);
+    }
+    .status.ready { color: var(--brok-success); }
+  </style>
+</head>
+<body>
+  <div class="loading-app">
+    <h1 class="loading-title">Запуск сервисов…</h1>
+    <p class="loading-version" id="app-version"></p>
+    <div class="loading-card">
+      <div class="service" data-service="core">
+        <div class="dot" id="dot-core"></div>
+        <span class="service-name">Core</span>
+        <span class="status" id="status-core">ожидание</span>
+      </div>
+      <div class="service" data-service="bpm">
+        <div class="dot" id="dot-bpm"></div>
+        <span class="service-name">BPM</span>
+        <span class="status" id="status-bpm">ожидание</span>
+      </div>
+      <div class="service" data-service="context">
+        <div class="dot" id="dot-context"></div>
+        <span class="service-name">Context</span>
+        <span class="status" id="status-context">ожидание</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      function setReady(service, ready) {
+        var r = Boolean(ready);
+        var dot = document.getElementById('dot-' + service);
+        var status = document.getElementById('status-' + service);
+        if (dot) dot.classList.toggle('ready', r);
+        if (status) {
+          status.textContent = r ? 'готов' : 'ожидание';
+          status.classList.toggle('ready', r);
+        }
+      }
+
+      function subscribe() {
+        var api = window.electronAPI;
+        if (!api || typeof api.on !== 'function') return false;
+        api.on('progressCore', function (ready) { setReady('core', ready); });
+        api.on('progressBpm', function (ready) { setReady('bpm', ready); });
+        api.on('progressContext', function (ready) { setReady('context', ready); });
+        return true;
+      }
+
+      var attempts = 0;
+      function trySubscribe() {
+        if (subscribe()) return;
+        attempts += 1;
+        if (attempts < 50) setTimeout(trySubscribe, 50);
+      }
+      trySubscribe();
+
+      function showVersion() {
+        var api = window.electronAPI;
+        if (!api || typeof api.getVersion !== 'function') return false;
+        api.getVersion().then(function (v) {
+          var el = document.getElementById('app-version');
+          if (el && v) el.textContent = 'Версия ' + v;
+        }).catch(function () {});
+        return true;
+      }
+      if (showVersion()) return;
+      var versionAttempts = 0;
+      function tryVersion() {
+        if (showVersion()) return;
+        versionAttempts += 1;
+        if (versionAttempts < 30) setTimeout(tryVersion, 50);
+      }
+      tryVersion();
+    })();
+  </script>
+</body>
+</html>

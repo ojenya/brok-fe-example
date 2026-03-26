@@ -1,0 +1,111 @@
+/* Main app — единый стиль с loading */
+.app {
+  width: 100%;
+  max-width: 480px;
+}
+
+.app-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 2rem;
+  color: var(--brok-text);
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.card {
+  background: var(--brok-surface);
+  border: 1px solid var(--brok-border);
+  border-radius: var(--brok-radius);
+  padding: 1.25rem 1.5rem;
+  text-align: left;
+  box-shadow: var(--brok-shadow);
+}
+
+.card-title {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--brok-text-muted);
+  margin: 0 0 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.btn-primary {
+  background: var(--brok-accent);
+  color: #fff;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.9375rem;
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--brok-accent-hover);
+}
+.btn-primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.response {
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--brok-surface-elevated);
+  border: 1px solid var(--brok-border);
+  border-radius: var(--brok-radius-sm);
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--brok-text-muted);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.response-label {
+  color: var(--brok-text);
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+.response pre {
+  margin: 0;
+}
+
+.error {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--brok-radius-sm);
+  color: var(--brok-error);
+  font-size: 0.875rem;
+}
+
+.loading-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--brok-text-muted);
+  font-size: 0.875rem;
+}
+.loading-inline::before {
+  content: '';
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--brok-border);
+  border-top-color: var(--brok-accent);
+  border-radius: 50%;
+  animation: brok-spin 0.7s linear infinite;
+}
+
+@keyframes brok-spin {
+  to { transform: rotate(360deg); }
+}

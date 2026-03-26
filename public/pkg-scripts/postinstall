@@ -1,0 +1,54 @@
+#!/bin/bash
+# Postinstall script for BrOk macOS package (brok-demo: BrOk Demo.app)
+# Runs after the application is installed. Sets permissions, removes quarantine, ad-hoc signs.
+
+LOG_FILE="/tmp/brok-postinstall.log"
+exec > "$LOG_FILE" 2>&1
+
+echo "=== BrOk Post-Install Script Started ==="
+echo "Date: $(date)"
+echo "User: $(whoami)"
+echo "Arguments: $@"
+echo ""
+echo "$1: Full path to the installer package"
+echo "$2: Full path to the installation location (e.g. /Applications)"
+echo "$3: Mountpoint of the installation disk"
+echo "$4: Root directory of currently booted system"
+echo ""
+
+# Имя приложения (должно совпадать с productName в package.json: BrOk Demo → BrOk Demo.app)
+APP_NAME="BrOk Demo.app"
+APP_PATH="$2"
+echo "Installation directory: $APP_PATH"
+
+if [ -z "$APP_PATH" ]; then
+    APP_PATH="/Applications/$APP_NAME"
+    echo "No install dir provided, using default: $APP_PATH"
+elif [[ "$APP_PATH" == *.app ]]; then
+    echo "Using provided path: $APP_PATH"
+else
+    APP_PATH="$APP_PATH/$APP_NAME"
+    echo "Appending app name to path: $APP_PATH"
+fi
+
+if [ -d "$APP_PATH" ]; then
+    echo "Found application at: $APP_PATH"
+    echo "Setting permissions..."
+    chmod -R 755 "$APP_PATH" && echo "Permissions set successfully" || echo "Failed to set permissions"
+
+    echo "Removing quarantine attribute..."
+    xattr -r -d com.apple.quarantine "$APP_PATH" 2>&1 && echo "Quarantine removed" || echo "No quarantine to remove"
+    ls -la@ "$APP_PATH"
+
+    echo "Adding ad-hoc signature..."
+    codesign --force --deep --sign - "$APP_PATH" 2>&1 && echo "Signed successfully" || echo "Signing failed"
+    echo "Post-installation completed successfully."
+else
+    echo "ERROR: Application not found at $APP_PATH"
+    ls -la "$(dirname "$APP_PATH")" 2>&1 || echo "Parent directory doesn't exist"
+fi
+
+echo "=== BrOk Post-Install Script Completed ==="
+echo ""
+logger "BrOk postinstall completed. Check $LOG_FILE for details"
+exit 0
