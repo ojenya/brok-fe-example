@@ -52,7 +52,7 @@ function startService(name, jarPath, javaPath) {
 }
 
 /**
- * Завершает все переданные процессы через tree-kill (хотелка 2).
+ * Завершает все переданные процессы через tree-kill.
  * @param {(import('child_process').ChildProcess | null)[]} processes
  */
 function killAllProcesses(processes) {

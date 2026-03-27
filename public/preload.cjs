@@ -1,5 +1,5 @@
 /**
- * Preload — IPC bridge. Экспонирует только разрешённые каналы (хотелка 4: прогресс сервисов).
+ * Preload — IPC bridge. Экспонирует только разрешённые каналы.
  * Имена каналов захардкожены, чтобы preload не падал из-за require() при loadFile (разный cwd).
  */
 const { contextBridge, ipcRenderer } = require('electron');

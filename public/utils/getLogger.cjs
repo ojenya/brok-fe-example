@@ -1,5 +1,5 @@
 /**
- * Хотелка 3: логгер для записи stdout/stderr Java-сервисов в файлы.
+ * Логгер для записи stdout/stderr Java-сервисов в файлы.
  * Файлы сохраняются в стандартной папке логов Electron (app.getPath('logs')).
  */
 const log = require('electron-log/main');

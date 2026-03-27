@@ -1,5 +1,5 @@
 /**
- * Оркестрация: окно загрузки → health-check по трём сервисам → главное окно (хотелка 4).
+ * Оркестрация: окно загрузки → health-check по трём сервисам → главное окно.
  * Порядок как в рабочей версии: сначала подписка на LOADING_EVENTS (setupServiceReadinessCheck), затем старт fetchWithRetry.
  */
 const { SERVICE_CONFIG } = require('./serviceConfig.cjs');

@@ -1,5 +1,5 @@
 /**
- * Хотелка 3: запись stdout/stderr и exit каждого сервиса в лог-файлы.
+ * Логирование stdout/stderr и exit каждого сервиса в лог-файлы.
  */
 const { getLogger } = require('./getLogger.cjs');
 

@@ -1,5 +1,5 @@
 /**
- * Окно загрузки (splash) с индикацией готовности сервисов (хотелка 4).
+ * Окно загрузки (splash) с индикацией готовности сервисов.
  */
 const { BrowserWindow } = require('electron');
 const path = require('path');
